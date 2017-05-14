@@ -45,12 +45,11 @@ public class DynamicAnalyzer extends Thread{
         }
     }
     
-    public void test(){
-        System.out.println("Sapshots count : "+ this.snapshots.size());
-        System.out.println("Process id : "+ this.pid);
-        for(Snapshot s : this.snapshots){
-            s.getProcessTree().accept(new Visitor(), 100);
-            
-        }
+    public List<Snapshot> getSnapshots(){
+        return this.snapshots;
+    }
+    
+    public int getPid(){
+        return this.pid;
     }
 }

@@ -12,7 +12,7 @@ import com.jezhumble.javasysmon.ProcessVisitor;
  *
  * @author bhanuka
  */
-class Visitor implements ProcessVisitor {
+public class Visitor implements ProcessVisitor {
 
     @Override
     public boolean visit(OsProcess proc, int i) {

@@ -13,8 +13,9 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.jezhumble.javasysmon.*;
+import lk.bhanuka.virus.dynamic.Visitor;
 import lk.bhanuka.virus.dynamic.DynamicAnalyzer;
+import lk.bhanuka.virus.dynamic.Snapshot;
 
 
 /**
@@ -29,24 +30,11 @@ public class Main {
             
             DynamicAnalyzer da = new DynamicAnalyzer();
             da.start();
-//            Process process = new ProcessBuilder("/home/bhanuka/UnsetProxy.sh").start();
-//
-//            
-            JavaSysMon systemMonitor = new JavaSysMon();
-            System.out.println("OS : "+ systemMonitor.osName());
-            System.out.println("CPUs: "+ systemMonitor.numCpus());
-            System.out.println("Current Process: "+ systemMonitor.currentPid());
-            System.out.println("Frequency : "+ systemMonitor.cpuFrequencyInHz());
-// 
-//            
-//            
-//            da.stop();
+
             
             Process process = Runtime.getRuntime().exec("/home/bhanuka/UnsetProxy.sh");
             InputStream is = process.getErrorStream();
-            
-//            systemMonitor.visitProcessTree(systemMonitor.currentPid(), new Visitor());
-            
+                        
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             
@@ -55,48 +43,26 @@ public class Main {
             
             System.out.printf("Output of running %s is:", Arrays.toString(args));
             
-//            systemMonitor.visitProcessTree(systemMonitor.currentPid(), new Visitor());
             
             while ((line = br.readLine()) != null) {
               System.out.println(line);
             }
             
             da.stop();
-            da.test();
-//            OsProcess proc = systemMonitor.processTree();
-//            for(Object child: proc.children()){
-//                if(child != null){
-//                    System.out.println("parent ID : "+ ((OsProcess)child).processInfo().getParentPid());
-//                    System.out.println("name : "+ ((OsProcess)child).processInfo().getName());
-//                    System.out.println("command : "+ ((OsProcess)child).processInfo().getCommand());
-//                }
-//            }
+
             process.destroy();
+            
+            for(Snapshot s: da.getSnapshots()){
+                System.out.println("=== Start of snapshot ===");
+                s.getProcessTree(da.getPid()).accept(new Visitor(), 0);
+                System.out.println("==== End of snapshot ===");
+            }
             
         } catch (IOException ex) {
 
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 
         }
-    }
-    
-}
-
-class Visitor implements ProcessVisitor{
-
-    @Override
-    public boolean visit(OsProcess proc, int i) {
-        System.out.println("Parent : "+ proc.processInfo().getParentPid()+" current : "+ proc.processInfo().getPid());
-        System.out.println("Children : "+ proc.children().size());
-        for(Object child: proc.children()){
-            if(child != null){
-                System.out.println("parent ID : "+ ((OsProcess)child).processInfo().getParentPid());
-                System.out.println("name : "+ ((OsProcess)child).processInfo().getName());
-                System.out.println("command : "+ ((OsProcess)child).processInfo().getCommand());
-                System.out.println("Process Id : " + ((OsProcess)child).processInfo().getPid());
-            }
-        }
-        return false;
     }
     
 }

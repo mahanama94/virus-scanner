@@ -22,4 +22,8 @@ public class Snapshot {
     public OsProcess getProcessTree(){
         return this.processTree;
     }
+    
+    public OsProcess getProcessTree(int pid){
+        return this.processTree.find(pid);
+    }
 }
