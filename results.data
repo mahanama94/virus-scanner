@@ -1,0 +1,89 @@
+Virus name : virus-name-2
+Matching Score : 1.0
+Number of Snapshots taken : 5
+Process ran with PID : 28222
+=============== Start of snapshot ===============
+Child process count :0
+================ End of snapshot ===============
+=============== Start of snapshot ===============
+Child process count :0
+Child process count :1
+------ Start of child process data ------
+name : npm
+command : npm                                
+Process Id : 28260
+Physical memory at snapshot (Bytes) : 42283008
+Physical memory total process (Bytes) : 1209835520
+User mode execution (miliseconds) : 360
+Kernel mode execution (miliseconds) : 20
+------ End of child process data ------
+Child process count :1
+------ Start of child process data ------
+name : sh
+command : /bin/sh /home/bhanuka/UnsetProxy.sh  
+Process Id : 28259
+Physical memory at snapshot (Bytes) : 806912
+Physical memory total process (Bytes) : 4616192
+User mode execution (miliseconds) : 0
+Kernel mode execution (miliseconds) : 0
+------ End of child process data ------
+================ End of snapshot ===============
+=============== Start of snapshot ===============
+Child process count :0
+Child process count :1
+------ Start of child process data ------
+name : sh
+command : /bin/sh /home/bhanuka/UnsetProxy.sh  
+Process Id : 28259
+Physical memory at snapshot (Bytes) : 806912
+Physical memory total process (Bytes) : 4616192
+User mode execution (miliseconds) : 0
+Kernel mode execution (miliseconds) : 0
+------ End of child process data ------
+================ End of snapshot ===============
+=============== Start of snapshot ===============
+Child process count :0
+Child process count :1
+------ Start of child process data ------
+name : npm
+command : npm                                      
+Process Id : 28271
+Physical memory at snapshot (Bytes) : 31883264
+Physical memory total process (Bytes) : 906264576
+User mode execution (miliseconds) : 220
+Kernel mode execution (miliseconds) : 0
+------ End of child process data ------
+Child process count :1
+------ Start of child process data ------
+name : sh
+command : /bin/sh /home/bhanuka/UnsetProxy.sh  
+Process Id : 28259
+Physical memory at snapshot (Bytes) : 806912
+Physical memory total process (Bytes) : 4616192
+User mode execution (miliseconds) : 0
+Kernel mode execution (miliseconds) : 0
+------ End of child process data ------
+================ End of snapshot ===============
+=============== Start of snapshot ===============
+Child process count :0
+Child process count :1
+------ Start of child process data ------
+name : npm
+command : npm                                      
+Process Id : 28271
+Physical memory at snapshot (Bytes) : 45096960
+Physical memory total process (Bytes) : 1211772928
+User mode execution (miliseconds) : 370
+Kernel mode execution (miliseconds) : 10
+------ End of child process data ------
+Child process count :1
+------ Start of child process data ------
+name : sh
+command : /bin/sh /home/bhanuka/UnsetProxy.sh  
+Process Id : 28259
+Physical memory at snapshot (Bytes) : 806912
+Physical memory total process (Bytes) : 4616192
+User mode execution (miliseconds) : 0
+Kernel mode execution (miliseconds) : 0
+------ End of child process data ------
+================ End of snapshot ===============

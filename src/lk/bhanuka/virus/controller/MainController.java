@@ -9,13 +9,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lk.bhanuka.virus.data.FileWriter;
+import lk.bhanuka.virus.data.Virus;
+import lk.bhanuka.virus.data.VirusDatabase;
 import lk.bhanuka.virus.dynamic.DynamicAnalyzer;
 import lk.bhanuka.virus.dynamic.Snapshot;
 import lk.bhanuka.virus.dynamic.Visitor;
 import lk.bhanuka.virus.main.Main;
+import lk.bhanuka.virus.matching.HashGenerator;
+import lk.bhanuka.virus.matching.MatchingEngine;
+import lk.bhanuka.virus.matching.MatchingRequest;
+import lk.bhanuka.virus.matching.MatchingResponse;
 
 /**
  *
@@ -23,14 +30,43 @@ import lk.bhanuka.virus.main.Main;
  */
 public class MainController {
     
-    public static void startAnalysis(String filePath){
-        try {
+    private static MatchingEngine matchingEngine = new MatchingEngine();
+    
+    private static FileWriter fileWriter = new FileWriter();
+    
+    public static void startAnalysis(String filepath){
+        try {            
             
+            // match with the database
+            List<Virus> viruses = VirusDatabase.getViruses();
+            
+            Virus matchingVirus = null;
+            float matchingScore = 0.0f;
+            
+            for(Virus virus: viruses){
+                MatchingRequest request = new MatchingRequest(HashGenerator.generate(filepath),virus.getHash());
+                
+                MatchingResponse response = matchingEngine.match(request);
+                if(matchingScore< response.BasicMatch){
+                    matchingVirus = virus;
+                    matchingScore = response.BasicMatch;
+                }
+            }
+
+            if(matchingVirus != null){
+                writeToFile("Virus name : "+ matchingVirus.getName());
+                writeToFile("Matching Score : "+ matchingScore);
+            }
+            else{
+                writeToFile("No similar viruses found on the database");
+            }
+            
+            // perform dynamic analysis
             DynamicAnalyzer da = new DynamicAnalyzer();
             da.start();
 
             
-            Process process = Runtime.getRuntime().exec("/home/bhanuka/UnsetProxy.sh");
+            Process process = Runtime.getRuntime().exec(filepath);
             InputStream is = process.getErrorStream();
                         
             InputStreamReader isr = new InputStreamReader(is);
@@ -46,17 +82,29 @@ public class MainController {
 
             process.destroy();
             
+            writeToFile("Number of Snapshots taken : "+ da.getSnapshots().size());
+            writeToFile("Process ran with PID : "+ da.getPid());
+            
             for(Snapshot s: da.getSnapshots()){
-                System.out.println("=== Start of snapshot ===");
+                writeToFile("=============== Start of snapshot ===============");
                 s.getProcessTree(da.getPid()).accept(new Visitor(), 0);
-                System.out.println("==== End of snapshot ===");
+                writeToFile("================ End of snapshot ===============");
             }
             
         } catch (IOException ex) {
 
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-
         }
     }
+    
+    private static void writeToFile(String data){
+        try {
+            fileWriter.writeLine("results.data", data+"\n");
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     
 }

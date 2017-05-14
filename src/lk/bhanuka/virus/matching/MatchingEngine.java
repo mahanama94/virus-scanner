@@ -13,9 +13,13 @@ public class MatchingEngine {
 
     private BasicMatching grader = new BasicMatching();
     
+    
     public MatchingResponse match(MatchingRequest request){
         
+        MatchingResponse response = new MatchingResponse();
         
-        return new MatchingResponse();
+        this.grader.match(request, response);
+        
+        return response;
     }
 }
